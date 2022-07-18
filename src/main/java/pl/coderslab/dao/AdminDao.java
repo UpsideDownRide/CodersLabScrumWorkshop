@@ -11,15 +11,39 @@ import java.util.List;
 
 public class AdminDao {
 
-    private static final String CREATE_ADMIN_QUERY = "INSERT INTO admins(firstName,lastName,email,password,superadmin,enable) VALUES (?,?,?,?,?,?);";
-    private static final String DELETE_ADMIN_QUERY = "DELETE FROM admins where id = ?;";
+    private static final String CREATE_ADMIN_QUERY =    "INSERT INTO admins(first_name, last_name, email,password, superadmin, enable) VALUES (?,?,?,?,?,?);";
+    private static final String DELETE_ADMIN_QUERY =    "DELETE FROM admins where id = ?;";
     private static final String FIND_ALL_ADMINS_QUERY = "SELECT * FROM admins;";
-    private static final String READ_ADMIN_QUERY = "SELECT * from admins where id = ?;";
-    private static final String UPDATE_ADMIN_QUERY = "UPDATE	admins SET first_name = ? , last_name = ?, email = ?, password =?, superadmin =?, enable = ? WHERE	id = ?;";
+    private static final String FIND_USER_BY_EMAIL =    "SELECT * FROM admins WHERE email = ?;";
+    private static final String READ_ADMIN_QUERY =      "SELECT * from admins where id = ?;";
+    private static final String UPDATE_ADMIN_QUERY =    "UPDATE admins SET first_name = ? , last_name = ?, email = ?, password =?, superadmin =?, enable = ? WHERE	id = ?;";
 
     public String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
+
+    public boolean validPassword(Admin user, String password) {
+        return BCrypt.checkpw(password, user.getPassword());
+    }
+
+    public Admin findByEmail(String email) {
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_USER_BY_EMAIL))
+        {
+            statement.setString(1, email);
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    if (email.equals(rs.getString("email"))) {
+                        return read(rs.getInt("id"));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public Admin read(Integer id) {
         Admin admin = new Admin();
         try (Connection connection = DbUtil.getConnection();
