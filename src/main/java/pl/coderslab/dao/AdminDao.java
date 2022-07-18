@@ -13,6 +13,7 @@ public class AdminDao {
 
 
 
+
     private static final String CREATE_ADMIN_QUERY = "INSERT INTO admins(first_name,last_name,email,password,superadmin,enable) VALUES (?,?,?,?,?,?);";
 
     private static final String DELETE_ADMIN_QUERY = "DELETE FROM admins where id = ?;";
