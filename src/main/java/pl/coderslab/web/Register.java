@@ -22,8 +22,8 @@ public class Register extends HttpServlet {
         Admin admin = new Admin();
         admin.setFirstName(request.getParameter("name"));
         admin.setLastName(request.getParameter("surname"));
-        admin.setEmail("email");
-        admin.setPassword("password");
+        admin.setEmail(request.getParameter("email"));
+        admin.setPassword(request.getParameter("password"));
         admin.setSuperadmin(0);
         admin.setEnable(0);
         adminDao.create(admin);
