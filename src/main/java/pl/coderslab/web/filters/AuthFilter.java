@@ -4,7 +4,7 @@ import javax.servlet.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebFilter(filterName = "AuthFilter", urlPatterns = "/app*")
+@WebFilter(filterName = "AuthFilter", urlPatterns = "/app/*")
 public class AuthFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
     }

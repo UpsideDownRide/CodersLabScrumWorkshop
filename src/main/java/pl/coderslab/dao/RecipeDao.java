@@ -199,8 +199,7 @@ public class RecipeDao {
        }
        return 0;
     }
-
-    public List<Recipe> findAdminRecipes(int adminId) {
+    public List<Recipe> findAllByUser(int adminId) {
         List<Recipe> recipeList = new ArrayList<>();
 
         try (Connection connection = DbUtil.getConnection();
