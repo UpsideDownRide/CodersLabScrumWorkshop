@@ -1,5 +1,6 @@
 package pl.coderslab.dao;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Recipe;
 import pl.coderslab.utils.DbUtil;
@@ -137,9 +138,9 @@ public class RecipeDao {
      *
      * @param recipeId
      */
-    public void delete(Integer recipeId) {
+    public void delete(Integer recipeId) throws NotAvailableException {
         try (Connection connection = DbUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_RECIPE_QUERY)) {
+            PreparedStatement statement = connection.prepareStatement(DELETE_RECIPE_QUERY)) {
             statement.setInt(1, recipeId);
             statement.executeUpdate();
 
@@ -147,7 +148,12 @@ public class RecipeDao {
             if (!deleted) {
                 throw new NotFoundException("Recipe not found");
             }
-        } catch (Exception e) {
+        } catch(MySQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+            throw new NotAvailableException("Recipe is used in other plans");
+
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
