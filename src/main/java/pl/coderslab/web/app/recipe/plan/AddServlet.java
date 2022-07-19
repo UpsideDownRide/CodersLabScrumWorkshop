@@ -55,5 +55,6 @@ public class AddServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        response.sendRedirect("/app/recipe/plan/add");
     }
 }
