@@ -3,10 +3,8 @@ package pl.coderslab.web.app.recipe.plan;
 import pl.coderslab.dao.DayNameDao;
 import pl.coderslab.dao.PlanDao;
 import pl.coderslab.dao.RecipeDao;
-import pl.coderslab.model.Admin;
-import pl.coderslab.model.DayName;
-import pl.coderslab.model.Plan;
-import pl.coderslab.model.Recipe;
+import pl.coderslab.dao.RecipePlanDao;
+import pl.coderslab.model.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -40,11 +38,22 @@ public class AddServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String planId = request.getParameter("choosePlan");
-        String mealName = request.getParameter("name");
-        String displayOrder = request.getParameter("number");
-        String recipeId = request.getParameter("recipe");
-        String dayId = request.getParameter("day");
-        //RecipePlanDao recipePlanDao = new RecipePlanDao();
+        String _planId = request.getParameter("choosePlan");
+        String _mealName = request.getParameter("name");
+        String _displayOrder = request.getParameter("number");
+        String _recipeId = request.getParameter("recipe");
+        String _dayId = request.getParameter("day");
+        RecipePlanDao recipePlanDao = new RecipePlanDao();
+        RecipePlan recipePlanToAdd = new RecipePlan();
+        try {
+            recipePlanToAdd.setPlanId(Integer.parseInt(_planId));
+            recipePlanToAdd.setMealName(_mealName);
+            recipePlanToAdd.setDisplayOrder(Integer.parseInt(_displayOrder));
+            recipePlanToAdd.setRecipeId(Integer.parseInt(_recipeId));
+            recipePlanToAdd.setDayNameId(Integer.parseInt(_dayId));
+            recipePlanDao.create(recipePlanToAdd);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
