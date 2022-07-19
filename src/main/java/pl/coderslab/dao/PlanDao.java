@@ -25,7 +25,7 @@ public class PlanDao {
 
 	public Plan lastAddedPlan(int adminId) {
 		Plan plan = new Plan();
-
+		return null;
 	}
 	
 	public Plan read(Integer planId) {
