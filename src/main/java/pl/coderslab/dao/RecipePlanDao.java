@@ -1,7 +1,7 @@
 package pl.coderslab.dao;
 
 import pl.coderslab.exception.NotFoundException;
-import pl.coderslab.model.Recipe;
+import pl.coderslab.model.RecipePlan;
 import pl.coderslab.utils.DbUtil;
 
 import java.sql.Connection;
@@ -11,23 +11,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecipeDao {
+public class RecipePlanDao {
     // ZAPYTANIA SQL
-    private static final String CREATE_RECIPE_QUERY = "INSERT INTO recipe(name, ingredients, description, created, updated, preparation_time, preparation, admin_id) VALUES (?,?,?,?,?,?,?,?);";
-    private static final String DELETE_RECIPE_QUERY = "DELETE FROM recipe where id = ?;";
-    private static final String FIND_ALL_RECIPES_QUERY = "SELECT * FROM recipe;";
-    private static final String FIND_ALL_USER_RECIPES_QUERY = "SELECT * FROM recipe WHERE admin_id = ?";
-    private static final String FIND_AMOUNT_OF_USER_RECIPES_QUERY = "SELECT COUNT(*) as count FROM recipe WHERE admin_id = ?";
-    private static final String READ_RECIPE_QUERY = "SELECT * from recipe where id = ?;";
-    private static final String UPDATE_RECIPE_QUERY = "UPDATE recipe SET" +
-            " name = ?," +
-            " ingredients = ?," +
-            " description = ?," +
-            " created = ?," +
-            " updated = ?," +
-            " preparation_time = ?," +
-            " preparation = ?," +
-            " admin_id = ?"+
+    private static final String CREATE_RECIPE_PLAN_QUERY = "INSERT INTO recipe_plan(recipe_id, meal_name, display_order, day_name_id, plan_id) VALUES (?,?,?,?,?);";
+    private static final String DELETE_RECIPE_PLAN_QUERY = "DELETE FROM recipe_plan where id = ?;";
+    private static final String FIND_ALL_RECIPE_PLANS_QUERY = "SELECT * FROM recipe_plan;";
+    private static final String READ_RECIPE_PLAN_QUERY = "SELECT * from recipe where id = ?;";
+    private static final String UPDATE_RECIPE_PLAN_QUERY = "UPDATE recipe_plan SET" +
+            " recipe_id = ?," +
+            " meal_name = ?," +
+            " display_order = ?," +
+            " day_name_id = ?," +
+            " plan_id = ?" +
             " WHERE	id = ?;";
 
     /**
@@ -36,54 +31,48 @@ public class RecipeDao {
      * @param recipeId
      * @return
      */
-    public Recipe read(Integer recipeId) {
-        Recipe recipe = new Recipe();
+    public RecipePlan read(Integer recipeId) {
+        RecipePlan recipePlan = new RecipePlan();
         try (Connection connection = DbUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(READ_RECIPE_QUERY)
+             PreparedStatement statement = connection.prepareStatement(READ_RECIPE_PLAN_QUERY)
         ) {
             statement.setInt(1, recipeId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    recipe.setId(resultSet.getInt("id"));
-                    recipe.setName(resultSet.getString("name"));
-                    recipe.setIngredients(resultSet.getString("ingredients"));
-                    recipe.setDescription(resultSet.getString("description"));
-                    recipe.setCreated(resultSet.getDate("created"));
-                    recipe.setUpdated(resultSet.getDate("updated"));
-                    recipe.setPreparationTime(resultSet.getInt("preparation_time"));
-                    recipe.setPreparation(resultSet.getString("preparation"));
-                    recipe.setAdminId(resultSet.getInt("admin_id"));
+                    recipePlan.setId(resultSet.getInt("id"));
+                    recipePlan.setRecipeId(resultSet.getInt("recipe_id"));
+                    recipePlan.setMealName(resultSet.getString("meal_name"));
+                    recipePlan.setDisplayOrder(resultSet.getInt("display_order"));
+                    recipePlan.setDayNameId(resultSet.getInt("day_name_id"));
+                    recipePlan.setPlanId(resultSet.getInt("plan_id"));
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return recipe;
+        return recipePlan;
     }
 
     /**
-     * Return all books
+     * Return all RecipePlans
      *
      * @return
      */
-    public List<Recipe> findAll() {
-        List<Recipe> recipeList = new ArrayList<>();
+    public List<RecipePlan> findAll() {
+        List<RecipePlan> recipeList = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_RECIPES_QUERY);
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_RECIPE_PLANS_QUERY);
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-                Recipe recipeToAdd = new Recipe();
-                recipeToAdd.setId(resultSet.getInt("id"));
-                recipeToAdd.setName(resultSet.getString("name"));
-                recipeToAdd.setIngredients(resultSet.getString("ingredients"));
-                recipeToAdd.setDescription(resultSet.getString("description"));
-                recipeToAdd.setCreated(resultSet.getDate("created"));
-                recipeToAdd.setUpdated(resultSet.getDate("updated"));
-                recipeToAdd.setPreparationTime(resultSet.getInt("preparation_time"));
-                recipeToAdd.setPreparation(resultSet.getString("preparation"));
-                recipeToAdd.setAdminId(resultSet.getInt("admin_id"));
-                recipeList.add(recipeToAdd);
+                RecipePlan recipePlanToAdd = new RecipePlan();
+                recipePlanToAdd.setId(resultSet.getInt("id"));
+                recipePlanToAdd.setRecipeId(resultSet.getInt("recipe_id"));
+                recipePlanToAdd.setMealName(resultSet.getString("meal_name"));
+                recipePlanToAdd.setDisplayOrder(resultSet.getInt("display_order"));
+                recipePlanToAdd.setDayNameId(resultSet.getInt("day_name_id"));
+                recipePlanToAdd.setPlanId(resultSet.getInt("plan_id"));
+                recipeList.add(recipePlanToAdd);
             }
 
         } catch (SQLException e) {
@@ -95,21 +84,18 @@ public class RecipeDao {
     /**
      * Create book
      *
-     * @param recipe
+     * @param recipePlan
      * @return
      */
-    public Recipe create(Recipe recipe) {
+    public RecipePlan create(RecipePlan recipePlan) {
         try (Connection connection = DbUtil.getConnection();
-             PreparedStatement insertStm = connection.prepareStatement(CREATE_RECIPE_QUERY,
+             PreparedStatement insertStm = connection.prepareStatement(CREATE_RECIPE_PLAN_QUERY,
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
-            insertStm.setString(1, recipe.getName());
-            insertStm.setString(2, recipe.getIngredients());
-            insertStm.setString(3, recipe.getDescription());
-            insertStm.setDate(4, recipe.getCreated());
-            insertStm.setDate(5, recipe.getUpdated());
-            insertStm.setInt(6, recipe.getPreparationTime());
-            insertStm.setString(7, recipe.getPreparation());
-            insertStm.setInt(8, recipe.getAdminId());
+            insertStm.setInt(1, recipePlan.getRecipeId());
+            insertStm.setString(2, recipePlan.getMealName());
+            insertStm.setInt(3, recipePlan.getDisplayOrder());
+            insertStm.setInt(4, recipePlan.getDayNameId());
+            insertStm.setInt(5, recipePlan.getPlanId());
             int result = insertStm.executeUpdate();
 
             if (result != 1) {
@@ -118,8 +104,8 @@ public class RecipeDao {
 
             try (ResultSet generatedKeys = insertStm.getGeneratedKeys()) {
                 if (generatedKeys.first()) {
-                    recipe.setId(generatedKeys.getInt(1));
-                    return recipe;
+                    recipePlan.setId(generatedKeys.getInt(1));
+                    return recipePlan;
                 } else {
                     throw new RuntimeException("Generated key was not found");
                 }
@@ -133,19 +119,19 @@ public class RecipeDao {
 
 
     /**
-     * Remove book by id
+     * Remove Recipe Plan by id
      *
-     * @param recipeId
+     * @param recipePlanId
      */
-    public void delete(Integer recipeId) {
+    public void delete(Integer recipePlanId) {
         try (Connection connection = DbUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_RECIPE_QUERY)) {
-            statement.setInt(1, recipeId);
+             PreparedStatement statement = connection.prepareStatement(DELETE_RECIPE_PLAN_QUERY)) {
+            statement.setInt(1, recipePlanId);
             statement.executeUpdate();
 
             boolean deleted = statement.execute();
             if (!deleted) {
-                throw new NotFoundException("Recipe not found");
+                throw new NotFoundException("Recipe plan not found");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -156,69 +142,22 @@ public class RecipeDao {
     /**
      * Update book
      *
-     * @param recipe
+     * @param recipePlan
      */
-    public void update(Recipe recipe) {
+    public void update(RecipePlan recipePlan) {
         try (Connection connection = DbUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_RECIPE_QUERY)) {
+             PreparedStatement statement = connection.prepareStatement(UPDATE_RECIPE_PLAN_QUERY)) {
 
-            statement.setInt(9, recipe.getId());
-            statement.setString(1, recipe.getName());
-            statement.setString(2, recipe.getIngredients());
-            statement.setString(3, recipe.getDescription());
-            statement.setDate(4, recipe.getCreated());
-            statement.setDate(5, recipe.getUpdated());
-            statement.setInt(6, recipe.getPreparationTime());
-            statement.setString(7, recipe.getPreparation());
-            statement.setInt(8, recipe.getAdminId());
-            statement.executeUpdate();
+            statement.setInt(6, recipePlan.getId());
+            statement.setInt(1, recipePlan.getRecipeId());
+            statement.setString(2, recipePlan.getMealName());
+            statement.setInt(3, recipePlan.getDisplayOrder());
+            statement.setInt(4, recipePlan.getDayNameId());
+            statement.setInt(5, recipePlan.getPlanId());
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-    public int amountOfRecipesOfUser(int adminId) {
-       try (Connection connection = DbUtil.getConnection();
-            PreparedStatement statement = connection.prepareStatement(FIND_AMOUNT_OF_USER_RECIPES_QUERY)) {
-
-           statement.setInt(1, adminId);
-           ResultSet rs = statement.executeQuery();
-           if (rs.next()) {
-                return rs.getInt("count");
-           }
-
-       } catch (SQLException e) {
-           e.printStackTrace();
-       }
-       return 0;
-    }
-    public List<Recipe> findAllByUser(int adminId) {
-        List<Recipe> recipeList = new ArrayList<>();
-
-        try (Connection connection = DbUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_USER_RECIPES_QUERY)) {
-            statement.setInt(1, adminId);
-            ResultSet rs = statement.executeQuery();
-
-            while (rs.next()) {
-                Recipe recipeToAdd = new Recipe();
-                recipeToAdd.setId(rs.getInt("id"));
-                recipeToAdd.setName(rs.getString("name"));
-                recipeToAdd.setIngredients(rs.getString("ingredients"));
-                recipeToAdd.setDescription(rs.getString("description"));
-                recipeToAdd.setCreated(rs.getDate("created"));
-                recipeToAdd.setUpdated(rs.getDate("updated"));
-                recipeToAdd.setPreparationTime(rs.getInt("preparation_time"));
-                recipeToAdd.setPreparation(rs.getString("preparation"));
-                recipeToAdd.setAdminId(rs.getInt("admin_id"));
-                recipeList.add(recipeToAdd);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return recipeList;
-    }
-
 
 }
