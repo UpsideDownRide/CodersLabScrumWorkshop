@@ -34,7 +34,7 @@ public class PlanDao {
 					plan.setName(resultSet.getString("name"));
 					plan.setCreated(resultSet.getDate("created"));
 					plan.setDescription(resultSet.getString("description"));
-					plan.setAdmin_id(resultSet.getInt("admin_id"));
+					plan.setAdminId(resultSet.getInt("admin_id"));
 				}
 			}
 		} catch (Exception e) {
@@ -56,7 +56,7 @@ public class PlanDao {
 				planToAdd.setName(resultSet.getString("name"));
 				planToAdd.setDescription(resultSet.getString("description"));
 				planToAdd.setCreated(resultSet.getDate("created"));
-				planToAdd.setAdmin_id(resultSet.getInt("admin_id"));
+				planToAdd.setAdminId(resultSet.getInt("admin_id"));
 				planList.add(planToAdd);
 			}
 			
@@ -74,7 +74,7 @@ public class PlanDao {
 			insertStm.setString(1, plan.getName());
 			insertStm.setString(2, plan.getDescription());
 			insertStm.setDate(3, plan.getCreated());
-			insertStm.setInt(4, plan.getAdmin_id());
+			insertStm.setInt(4, plan.getAdminId());
 			int result = insertStm.executeUpdate();
 			
 			if (result != 1) {
@@ -118,7 +118,7 @@ public class PlanDao {
 			statement.setString(1, plan.getName());
 			statement.setString(2, plan.getDescription());
 			statement.setDate(3, plan.getCreated());
-			statement.setInt(4, plan.getAdmin_id());
+			statement.setInt(4, plan.getAdminId());
 			
 			
 			statement.executeUpdate();

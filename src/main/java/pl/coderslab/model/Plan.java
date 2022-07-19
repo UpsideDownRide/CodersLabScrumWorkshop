@@ -9,7 +9,7 @@ public class Plan {
 	private String name;
 	private String description;
 	private Date created;
-	private int admin_id;
+	private int adminId;
 	
 	public Plan () {
 	
@@ -55,14 +55,14 @@ public class Plan {
 		this.created = created;
 	}
 	
-	public int getAdmin_id () {
+	public int getAdminId () {
 		
-		return admin_id;
+		return adminId;
 	}
 	
-	public void setAdmin_id (int admin_id) {
+	public void setAdminId (int admin_id) {
 		
-		this.admin_id = admin_id;
+		this.adminId = admin_id;
 	}
 	
 	@Override
@@ -73,7 +73,7 @@ public class Plan {
 				", name='"+name+'\''+
 				", description='"+description+'\''+
 				", created='"+created+'\''+
-				", admin_id="+admin_id+
+				", admin_id="+adminId+
 				'}';
 	}
 }
