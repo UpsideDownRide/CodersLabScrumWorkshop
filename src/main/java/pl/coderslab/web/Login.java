@@ -21,14 +21,17 @@ public class Login extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         Admin userToAuthorize = adminDao.findByEmail((email));
+        ServletContext applicationContext = getServletContext();
+
         if (userToAuthorize == null) {
             response.sendRedirect("/login");
             return;
         }
+
         boolean validPassword = adminDao.validPassword(userToAuthorize, password);
         if (validPassword) {
-            request.setAttribute("User", userToAuthorize);
-            request.setAttribute("Authorized", true);
+            applicationContext.setAttribute("User", userToAuthorize);
+            applicationContext.setAttribute("Authorized", true);
             response.sendRedirect("/");
         } else {
             response.sendRedirect("/login");
