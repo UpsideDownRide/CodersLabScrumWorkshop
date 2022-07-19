@@ -1,6 +1,7 @@
 package pl.coderslab.web;
 
 import pl.coderslab.dao.RecipeDao;
+import pl.coderslab.model.Admin;
 import pl.coderslab.model.Recipe;
 
 import javax.servlet.*;
@@ -14,7 +15,10 @@ public class RecipeList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RecipeDao recipeDao = new RecipeDao();
-        request.setAttribute("recipes", recipeDao.findAll());
+        ServletContext servletContext = getServletContext();
+        Admin loggedUser = (Admin) servletContext.getAttribute("User");
+
+        request.setAttribute("recipes", recipeDao.findAdminRecipes(loggedUser.getId()));
         request.getServletContext().getRequestDispatcher("/recipeList.jsp").forward(request, response);
     }
 
