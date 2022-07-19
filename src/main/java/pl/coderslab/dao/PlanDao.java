@@ -21,6 +21,8 @@ public class PlanDao {
 	private static final String CREATE_PLAN_QUERY = "INSERT INTO plan (name, description, created, admin_id) VALUES (?,?,?,?);";
 	private static final String DELETE_PLAN_QUERY = "DELETE FROM plan where id = ?;";
 	private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ?, created = ?, admin_id= ? WHERE	id = ?";
+	private static final String READ_PLAN_SUM = "SELECT sum(admin_id) AS plans_no FROM plan WHERE admin_id =?;";
+
 	
 	public Plan read(Integer planId) {
 		Plan plan = new Plan();
@@ -126,6 +128,24 @@ public class PlanDao {
 			e.printStackTrace();
 		}
 		
+	}
+
+	public int  planSum(Integer admin_id) {
+		int sum = 0;
+		try (Connection connection = DbUtil.getConnection();
+			 PreparedStatement statement = connection.prepareStatement(READ_PLAN_SUM)
+		) {
+			statement.setInt(1, admin_id);
+			try (ResultSet resultSet = statement.executeQuery()) {
+				while (resultSet.next()) {
+					sum = resultSet.getInt("plan_no");
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return sum;
+
 	}
 	
 	
