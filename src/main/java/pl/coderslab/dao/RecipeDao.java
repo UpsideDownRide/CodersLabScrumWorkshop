@@ -193,6 +193,7 @@ public class RecipeDao {
        }
        return 0;
     }
+
     public List<Recipe> findAdminRecipes(int adminId) {
         List<Recipe> recipeList = new ArrayList<>();
 
@@ -218,7 +219,7 @@ public class RecipeDao {
             e.printStackTrace();
         }
         return recipeList;
-    }
 
+    }
 
 }
