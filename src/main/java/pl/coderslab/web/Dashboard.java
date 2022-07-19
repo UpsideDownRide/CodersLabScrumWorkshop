@@ -15,11 +15,12 @@ public class Dashboard extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PlanDao planDao = new PlanDao();
         RecipeDao recipeDao = new RecipeDao();
-        request.getParameter("User");
-        Admin admin = new Admin();
+        ServletContext servletContext = getServletContext();
+        Admin loggedUser = (Admin) servletContext.getAttribute("User");
+        int id = loggedUser.getId();
 
-        request.setAttribute("plans", planDao.planSum(1)); // podmienic admin id na id z sesji
-        request.setAttribute("recipes",recipeDao.amountOfRecipesOfUser(1)); // podmienic admin id na id z sesji
+        request.setAttribute("plans", planDao.planSum(id));
+        request.setAttribute("recipes",recipeDao.amountOfRecipesOfUser(id));
         // dodac szczegoly planu jak beda zrobione
         getServletContext().getRequestDispatcher("/dashboard.jsp").forward(request, response);
 
