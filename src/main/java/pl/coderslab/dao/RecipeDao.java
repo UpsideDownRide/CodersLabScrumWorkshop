@@ -19,6 +19,7 @@ public class RecipeDao {
     private static final String FIND_ALL_USER_RECIPES_QUERY = "SELECT * FROM recipe WHERE admin_id = ?";
     private static final String FIND_AMOUNT_OF_USER_RECIPES_QUERY = "SELECT COUNT(*) as count FROM recipe WHERE admin_id = ?";
     private static final String READ_RECIPE_QUERY = "SELECT * from recipe where id = ?;";
+    private static final String READ_RECIPE_DETAILS_BY_ADMIN_ID_QUERY = "select recipe.id,name,ingredients,description,created,updated,preparation_time,preparation from recipe join admins a on a.id = recipe.admin_id where admin.id =?";
     private static final String UPDATE_RECIPE_QUERY = "UPDATE recipe SET" +
             " name = ?," +
             " ingredients = ?," +
@@ -193,6 +194,7 @@ public class RecipeDao {
        }
        return 0;
     }
+
     public List<Recipe> findAdminRecipes(int adminId) {
         List<Recipe> recipeList = new ArrayList<>();
 
@@ -218,7 +220,30 @@ public class RecipeDao {
             e.printStackTrace();
         }
         return recipeList;
+
     }
-
-
+    public Recipe readByAdminId(Integer id) {
+        Recipe recipe = new Recipe();
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(READ_RECIPE_DETAILS_BY_ADMIN_ID_QUERY)
+        ) {
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    recipe.setId(resultSet.getInt("id"));
+                    recipe.setName(resultSet.getString("name"));
+                    recipe.setIngredients(resultSet.getString("ingredients"));
+                    recipe.setDescription(resultSet.getString("description"));
+                    recipe.setCreated(resultSet.getDate("created"));
+                    recipe.setUpdated(resultSet.getDate("updated"));
+                    recipe.setPreparationTime(resultSet.getInt("preparation_time"));
+                    recipe.setPreparation(resultSet.getString("preparation"));
+                    recipe.setAdminId(resultSet.getInt("admin_id"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return recipe;
+    }
 }
