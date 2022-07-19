@@ -1,6 +1,7 @@
 package pl.coderslab.web;
 
 import pl.coderslab.dao.RecipeDao;
+import pl.coderslab.model.Admin;
 import pl.coderslab.model.Recipe;
 
 import javax.servlet.*;
@@ -19,6 +20,8 @@ public class AddRecipe extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RecipeDao recipeDao = new RecipeDao();
+        ServletContext servletContext = getServletContext();
+        Admin loggedUser = (Admin) servletContext.getAttribute("User");
 
         String recipeName = request.getParameter("name");
         String description = request.getParameter("description");
@@ -27,6 +30,7 @@ public class AddRecipe extends HttpServlet {
         String preparing = request.getParameter("preparing");
         String ingredients = request.getParameter("ingredients");
 
+
         Recipe recipe = new Recipe();
 
         recipe.setName(recipeName);
@@ -34,7 +38,7 @@ public class AddRecipe extends HttpServlet {
         recipe.setPreparationTime(time);
         recipe.setPreparation(preparing);
         recipe.setIngredients(ingredients);
-        recipe.setAdminId(1); // tu trzeba pobrac id zalogowanego usera
+        recipe.setAdminId(loggedUser.getId()); //
 
         recipeDao.create(recipe);
 
