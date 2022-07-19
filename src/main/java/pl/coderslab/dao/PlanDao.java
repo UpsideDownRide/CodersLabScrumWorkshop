@@ -21,13 +21,9 @@ public class PlanDao {
 	private static final String CREATE_PLAN_QUERY = "INSERT INTO plan (name, description, created, admin_id) VALUES (?,?,?,?);";
 	private static final String DELETE_PLAN_QUERY = "DELETE FROM plan where id = ?;";
 	private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ?, created = ?, admin_id= ? WHERE	id = ?";
-	private static final String READ_PLAN_SUM = "SELECT sum(admin_id) AS plans_no FROM plan WHERE admin_id =?;";
+	private static final String READ_PLAN_SUM = "SELECT sum(admin_id) AS plans_no FROM plan WHERE admin_id = ?;";
+	private static final String LAST_ADDED_PLAN_QUERY = "SELECT * FROM plan WHERE admin_id = ? ORDER BY created DESC LIMIT 1;";
 
-	public Plan lastAddedPlan(int adminId) {
-		Plan plan = new Plan();
-		return null;
-	}
-	
 	public Plan read(Integer planId) {
 		Plan plan = new Plan();
 		try (Connection connection = DbUtil.getConnection();
@@ -47,7 +43,6 @@ public class PlanDao {
 			e.printStackTrace();
 		}
 		return plan;
-		
 	}
 	
 	public List<Plan> findAll() {
@@ -70,7 +65,6 @@ public class PlanDao {
 			e.printStackTrace();
 		}
 		return planList;
-		
 	}
 	
 	public Plan create(Plan plan) {
@@ -131,7 +125,6 @@ public class PlanDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 	public int  planSum(Integer adminId) {
@@ -149,8 +142,27 @@ public class PlanDao {
 			e.printStackTrace();
 		}
 		return sum;
-
 	}
 	
-	
+	public Plan lastAddedPlan(int adminId) {
+		Plan plan = new Plan();
+		try (Connection connection = DbUtil.getConnection();
+			 PreparedStatement statement = connection.prepareStatement(LAST_ADDED_PLAN_QUERY)
+		) {
+			statement.setInt(1, adminId);
+			ResultSet resultSet = statement.executeQuery();
+			if (resultSet.next()) {
+				plan.setId(resultSet.getInt("id"));
+				plan.setName(resultSet.getString("name"));
+				plan.setCreated(resultSet.getDate("created"));
+				plan.setDescription(resultSet.getString("description"));
+				plan.setAdminId(resultSet.getInt("admin_id"));
+				return plan;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }
