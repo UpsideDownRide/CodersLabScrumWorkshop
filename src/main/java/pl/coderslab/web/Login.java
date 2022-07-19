@@ -30,9 +30,11 @@ public class Login extends HttpServlet {
 
         boolean validPassword = adminDao.validPassword(userToAuthorize, password);
         if (validPassword) {
-            applicationContext.setAttribute("User", userToAuthorize);
-            applicationContext.setAttribute("Authorized", true);
-            response.sendRedirect("/");
+
+            request.setAttribute("User", userToAuthorize);
+            request.setAttribute("Authorized", true);
+            response.sendRedirect("/dashboard");
+
         } else {
             response.sendRedirect("/login");
         }
