@@ -18,6 +18,7 @@ public class PlanDao {
 	
 	private static final String READ_PLAN_QUERY = "SELECT * from plan where id = ?;";
 	private static final String FIND_ALL_PLAN_QUERY = "SELECT * FROM plan;";
+	private static final String FIND_ALL_PLAN_USER_QUERY = "SELECT * FROM plan WHERE admin_id = ?;";
 	private static final String CREATE_PLAN_QUERY = "INSERT INTO plan (name, description, created, admin_id) VALUES (?,?,?,?);";
 	private static final String DELETE_PLAN_QUERY = "DELETE FROM plan where id = ?;";
 	private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ?, description = ?, created = ?, admin_id= ? WHERE id = ?";
@@ -66,7 +67,29 @@ public class PlanDao {
 		}
 		return planList;
 	}
-	
+
+	public List<Plan> findAllByUser(int adminId) {
+		List<Plan> planList = new ArrayList<>();
+		try (Connection connection = DbUtil.getConnection();
+			 PreparedStatement statement = connection.prepareStatement(FIND_ALL_PLAN_USER_QUERY)) {
+			statement.setInt(1, adminId);
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				Plan planToAdd = new Plan();
+				planToAdd.setId(resultSet.getInt("id"));
+				planToAdd.setName(resultSet.getString("name"));
+				planToAdd.setDescription(resultSet.getString("description"));
+				planToAdd.setCreated(resultSet.getDate("created"));
+				planToAdd.setAdminId(resultSet.getInt("admin_id"));
+				planList.add(planToAdd);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return planList;
+	}
+
 	public Plan create(Plan plan) {
 		try (Connection connection = DbUtil.getConnection();
 			 PreparedStatement insertStm = connection.prepareStatement(CREATE_PLAN_QUERY,
