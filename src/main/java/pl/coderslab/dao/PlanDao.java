@@ -130,12 +130,12 @@ public class PlanDao {
 		
 	}
 
-	public int  planSum(Integer admin_id) {
+	public int  planSum(Integer adminId) {
 		int sum = 0;
 		try (Connection connection = DbUtil.getConnection();
 			 PreparedStatement statement = connection.prepareStatement(READ_PLAN_SUM)
 		) {
-			statement.setInt(1, admin_id);
+			statement.setInt(1, adminId);
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) {
 					sum = resultSet.getInt("plan_no");
