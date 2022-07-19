@@ -18,7 +18,7 @@ public class ListServlet extends HttpServlet {
         List<Plan> allPlans = planDao.findAll();
         allPlans.sort(Comparator.comparing(Plan::getCreated).reversed());
         request.setAttribute("plans", allPlans);
-        request.getRequestDispatcher("/app-schedules.jsp").forward(request, response);
+        request.getRequestDispatcher("/appPlanList.jsp").forward(request, response);
     }
 
     @Override
