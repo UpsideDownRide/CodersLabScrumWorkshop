@@ -29,7 +29,7 @@ public class Login extends HttpServlet {
         if (validPassword) {
             request.setAttribute("User", userToAuthorize);
             request.setAttribute("Authorized", true);
-            response.sendRedirect("/");
+            response.sendRedirect("/dashboard");
         } else {
             response.sendRedirect("/login");
         }
