@@ -13,11 +13,11 @@ import java.io.IOException;
 public class RecipeDetails extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ServletContext servletContext = getServletContext();
-        Admin loggedUser = (Admin) servletContext.getAttribute("User");
-        int id = loggedUser.getId();
+
+        String recipeId = request.getParameter("id");
         RecipeDao recipeDao = new RecipeDao();
-        Recipe recipe = recipeDao.readByAdminId(id);
+
+        Recipe recipe = recipeDao.read(Integer.parseInt(recipeId));
         request.setAttribute("name", recipe.getIngredients());
         request.setAttribute("description",recipe.getDescription());
         request.setAttribute("preparationTime",recipe.getPreparationTime());
