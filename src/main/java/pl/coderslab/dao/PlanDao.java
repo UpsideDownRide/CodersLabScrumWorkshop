@@ -23,6 +23,10 @@ public class PlanDao {
 	private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ?, created = ?, admin_id= ? WHERE	id = ?";
 	private static final String READ_PLAN_SUM = "SELECT sum(admin_id) AS plans_no FROM plan WHERE admin_id =?;";
 
+	public Plan lastAddedPlan(int adminId) {
+		Plan plan = new Plan();
+
+	}
 	
 	public Plan read(Integer planId) {
 		Plan plan = new Plan();
