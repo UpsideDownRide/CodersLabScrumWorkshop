@@ -17,7 +17,7 @@ public class DayNameDao {
 
     private static final String FIND_ALL_QUERY = "SELECT * FROM day_name";
     private static final String FIND_DAYS_BY_RECIPE_PLAN_ID_QUERY = "select recipe_plan.day_name_id, day_name.name ,day_name.display_order from " +
-            "recipe_plan  join day_name on recipe_plan.day_name_id=day_name.id where plan_id=?  group by day_name_id order by day_name_id ";
+            "recipe_plan join day_name on recipe_plan.day_name_id=day_name.id where plan_id=?  group by day_name_id order by day_name_id ";
           
 
     public List<DayName> findAll() {

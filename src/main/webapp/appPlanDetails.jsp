@@ -1,3 +1,4 @@
+<jsp:useBean id="plan" scope="request" class="pl.coderslab.model.Plan"/>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="header.jsp"/>
@@ -12,7 +13,7 @@
                         <h3 class="color-header text-uppercase">SZCZEGÓŁY PLANU</h3>
                     </div>
                     <div class="col d-flex justify-content-end mb-2 noPadding">
-                        <a href="/app/plan/list" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
+                        <a href="${pageContext.request.contextPath}/app/plan/list" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
                     </div>
                 </div>
 
@@ -37,56 +38,36 @@
                             </div>
                         </div>
                     </div>
-                    <c:forEach var="day" items="${days}">
+                    <jsp:useBean id="recipePlanDetailsByDay" scope="request" type="java.util.Map"/>
+                    <c:forEach var="day" items="${recipePlanDetailsByDay.keySet()}">
                         <table class="table">
-
                             <thead>
-
                             <tr class="d-flex">
-                                <th class="col-2">${day.name}</th>
+                                <th class="col-2">${day}</th>
                                 <th class="col-7"></th>
                                 <th class="col-1"></th>
                                 <th class="col-2"></th>
                             </tr>
                             </thead>
                             <tbody class="text-color-lighter">
-
-                            <c:forEach var="recipePlan" items="${recipePlans}">
-                                <c:choose>
-                                    <c:when test="${recipePlan.dayNameId==day.id}">
-
-
-                                        <tr class="d-flex">
-                                        <td class="col-2">${recipePlan.mealName}</td>
-                                        <c:forEach var="recipe" items="${recipes}">
-                                            <c:choose>
-                                                <c:when test="${recipe.id==recipePlan.recipeId}">
-
-
-                                                    <td class="col-7">${recipe.name}</td>
-
-                                                    <td class="col-1 center">
-                                                        <a href="/app/recipe/plan/delete?id=${recipePlan.id}"
-                                                           class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
-                                                    </td>
-                                                    <td class="col-2 center">
-                                                        <a href="/app/recipe/details?id=${recipe.id}"
-                                                           class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-                                                    </td>
-                                                    </tr>
-                                                </c:when>
-
-                                            </c:choose>
-                                        </c:forEach>
-                                    </c:when>
-
-                                </c:choose>
+                            <c:forEach var="recipePlan" items="${recipePlanDetailsByDay.get(day)}">
+                                <tr class="d-flex">
+                                    <td class="col-2">${recipePlan.mealName}</td>
+                                    <td class="col-7">${recipePlan.recipeName}</td>
+                                    <td class="col-1 center">
+                                        <a href="${pageContext.request.contextPath}/app/recipe/plan/delete?id=${recipePlan.recipePlanId}"
+                                           class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+                                    </td>
+                                    <td class="col-2 center">
+                                        <a href="${pageContext.request.contextPath}/app/recipe/details?id=${recipePlan.recipeId}"
+                                           class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
+                                    </td>
+                                </tr>
                             </c:forEach>
 
                             </tbody>
                         </table>
                     </c:forEach>
-
 
                 </div>
             </div>
