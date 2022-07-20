@@ -3,6 +3,7 @@ package pl.coderslab.dao;
 import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Recipe;
 import pl.coderslab.model.RecipePlan;
+import pl.coderslab.model.RecipePlanDetails;
 import pl.coderslab.utils.DbUtil;
 
 import java.sql.Connection;
@@ -26,6 +27,13 @@ public class RecipePlanDao {
             " day_name_id = ?," +
             " plan_id = ?" +
             " WHERE	id = ?;";
+    private static final String FIND_RECIPE_PLAN_DETAILS_BY_PLAN_QUERY = "SELECT recipe_plan.id, meal_name, day_name.name as day_name," +
+            "recipe.name, recipe.ingredients, recipe.description, recipe.id, plan.name, plan.description FROM recipe_plan " +
+            "    JOIN day_name on recipe_plan.day_name_id = day_name.id " +
+            "    JOIN recipe on recipe_plan.recipe_id = recipe.id " +
+            "    JOIN plan on recipe_plan.plan_id = plan.id " +
+            "    WHERE plan.id = ? " +
+            "    ORDER BY day_name.display_order, recipe_plan.display_order;";
 
     /**
      * Get book by id
@@ -161,15 +169,15 @@ public class RecipePlanDao {
             e.printStackTrace();
         }
     }
-    
+
     public List<RecipePlan> findRecipePlan(int planId) {
         List<RecipePlan> recipePlanList = new ArrayList<>();
-        
+
         try (Connection connection = DbUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_RECIPE_PLAN_BY_PLAN_ID_QUERY )) {
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_RECIPE_PLAN_BY_PLAN_ID_QUERY)) {
             statement.setInt(1, planId);
             ResultSet rs = statement.executeQuery();
-            
+
             while (rs.next()) {
                 RecipePlan recipePlan = new RecipePlan();
                 recipePlan.setId(rs.getInt("id"));
@@ -184,7 +192,34 @@ public class RecipePlanDao {
             e.printStackTrace();
         }
         return recipePlanList;
-        
+
     }
 
+    public List<RecipePlanDetails> findRecipePlanDetails(int planId) {
+        List<RecipePlanDetails> recipePlan = new ArrayList<>();
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_RECIPE_PLAN_DETAILS_BY_PLAN_QUERY)) {
+
+            statement.setInt(1, planId);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                RecipePlanDetails recipePlanDetails = new RecipePlanDetails();
+                recipePlanDetails.setRecipePlanId(rs.getInt("recipe_plan.id"));
+                recipePlanDetails.setMealName(rs.getString("meal_name"));
+                recipePlanDetails.setDayName(rs.getString("day_name"));
+                recipePlanDetails.setIngredients(rs.getString("ingredients"));
+                recipePlanDetails.setRecipeId(rs.getInt("recipe.id"));
+                recipePlanDetails.setRecipeName(rs.getString("recipe.name"));
+                recipePlanDetails.setRecipeDescription(rs.getString("recipe.description"));
+                recipePlanDetails.setPlanName(rs.getString("plan.name"));
+                recipePlanDetails.setPlanDescription(rs.getString("plan.description"));
+                recipePlan.add(recipePlanDetails);
+            }
+            return recipePlan;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

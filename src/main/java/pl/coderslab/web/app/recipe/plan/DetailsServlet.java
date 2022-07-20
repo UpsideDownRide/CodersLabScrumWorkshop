@@ -4,42 +4,41 @@ import pl.coderslab.dao.DayNameDao;
 import pl.coderslab.dao.PlanDao;
 import pl.coderslab.dao.RecipeDao;
 import pl.coderslab.dao.RecipePlanDao;
-import pl.coderslab.model.DayName;
-import pl.coderslab.model.Plan;
-import pl.coderslab.model.Recipe;
-import pl.coderslab.model.RecipePlan;
+import pl.coderslab.model.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.groupingBy;
 
 
 @WebServlet(name = "AppPlanDetails", value = "/app/plan/details")
 public class DetailsServlet extends HttpServlet {
-	
+	PlanDao planDao = new PlanDao();
+	RecipePlanDao recipePlanDao = new RecipePlanDao();
+
 	@Override
 	protected void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String id = request.getParameter("id");
-		PlanDao planDao = new PlanDao();
-		Plan plan = planDao.read(Integer.parseInt(id));
-		request.setAttribute("plan", plan);
-		
-		RecipePlanDao recipePlanDao = new RecipePlanDao();
-		List<RecipePlan> recipePlans = recipePlanDao.findRecipePlan(Integer.parseInt(id));
-		request.setAttribute("recipePlans", recipePlans);
-	
-		RecipeDao recipeDao = new RecipeDao();
-		List<Recipe> recipes = recipeDao.findAll();
-		request.setAttribute("recipes", recipes);
-		
-		DayNameDao dayNameDao = new DayNameDao();
-		List<DayName> dayNames = dayNameDao.findDaysByPlanId(Integer.parseInt(id));
-		request.setAttribute("days", dayNames);
-		
-		getServletContext().getRequestDispatcher("/app-details-schedules.jsp").forward(request,response);
+		try {
+			int planId = Integer.parseInt(id);
+			Plan plan = planDao.read(planId);
+			List<RecipePlanDetails> recipePlanDetails = recipePlanDao.findRecipePlanDetails(planId);
+			request.setAttribute("plan", plan);
+			Map<String, List<RecipePlanDetails>> recipePlanDetailsByDay = recipePlanDetails
+					.stream()
+					.collect(groupingBy(RecipePlanDetails::getDayName));
+			request.setAttribute("recipePlanDetailsByDay", recipePlanDetailsByDay);
+    		getServletContext().getRequestDispatcher("/appPlanDetails.jsp").forward(request,response);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid recipe plan id");
+		}
 	}
 	
 	@Override
