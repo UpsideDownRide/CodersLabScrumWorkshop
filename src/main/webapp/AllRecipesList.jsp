@@ -5,6 +5,12 @@
 <section class="dashboard-section">
     <div class="row dashboard-nowrap">
         <div class="m-4 p-3 width-medium">
+            <form method="POST" class="padding-small text-center">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="podaj tytul przepisu">
+                </div>
+                <button class="btn btn-color rounded-0" type="submit">wyszukaj</button>
+            </form>
             <div class="dashboard-content border-dashed p-3 m-4 view-height">
                 <div class="row border-bottom border-3 p-1 m-1">
                     <div class="col noPadding"><h3 class="color-header text-uppercase">Lista Przepisów</h3></div>
