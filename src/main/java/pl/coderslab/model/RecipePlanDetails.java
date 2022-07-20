@@ -10,6 +10,7 @@ public class RecipePlanDetails {
     private String recipeDescription;
     private String planName;
     private String planDescription;
+    private int    planId;
 
     @Override
     public String toString() {
@@ -36,6 +37,14 @@ public class RecipePlanDetails {
         this.recipeDescription = recipeDescription;
         this.planName = planName;
         this.planDescription = planDescription;
+    }
+
+    public int getPlanId() {
+        return planId;
+    }
+
+    public void setPlanId(int planId) {
+        this.planId = planId;
     }
 
     public int getRecipeId() {

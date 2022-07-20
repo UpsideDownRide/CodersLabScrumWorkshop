@@ -55,7 +55,7 @@
                                     <td class="col-2">${recipePlan.mealName}</td>
                                     <td class="col-7">${recipePlan.recipeName}</td>
                                     <td class="col-1 center">
-                                        <a href="${pageContext.request.contextPath}/app/recipe/plan/delete?id=${recipePlan.recipePlanId}"
+                                        <a href="${pageContext.request.contextPath}/app/recipe/plan/delete?id=${recipePlan.recipePlanId}&planId=${recipePlan.planId}"
                                            class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
                                     </td>
                                     <td class="col-2 center">

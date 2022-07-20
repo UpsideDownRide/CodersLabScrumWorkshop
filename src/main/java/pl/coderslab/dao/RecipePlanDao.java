@@ -28,7 +28,7 @@ public class RecipePlanDao {
             " plan_id = ?" +
             " WHERE	id = ?;";
     private static final String FIND_RECIPE_PLAN_DETAILS_BY_PLAN_QUERY = "SELECT recipe_plan.id, meal_name, day_name.name as day_name," +
-            "recipe.name, recipe.ingredients, recipe.description, recipe.id, plan.name, plan.description FROM recipe_plan " +
+            "recipe.name, recipe.ingredients, recipe.description, recipe.id, plan.name, plan.description, plan.id FROM recipe_plan " +
             "    JOIN day_name on recipe_plan.day_name_id = day_name.id " +
             "    JOIN recipe on recipe_plan.recipe_id = recipe.id " +
             "    JOIN plan on recipe_plan.plan_id = plan.id " +
@@ -214,6 +214,7 @@ public class RecipePlanDao {
                 recipePlanDetails.setRecipeDescription(rs.getString("recipe.description"));
                 recipePlanDetails.setPlanName(rs.getString("plan.name"));
                 recipePlanDetails.setPlanDescription(rs.getString("plan.description"));
+                recipePlanDetails.setPlanId(rs.getInt("plan.id"));
                 recipePlan.add(recipePlanDetails);
             }
             return recipePlan;
