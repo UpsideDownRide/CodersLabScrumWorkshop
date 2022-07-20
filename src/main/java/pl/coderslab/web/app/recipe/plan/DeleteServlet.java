@@ -1,6 +1,8 @@
 package pl.coderslab.web.app.recipe.plan;
 
+import pl.coderslab.dao.NotAvailableException;
 import pl.coderslab.dao.PlanDao;
+import pl.coderslab.dao.RecipeDao;
 import pl.coderslab.dao.RecipePlanDao;
 import pl.coderslab.model.Plan;
 
@@ -16,16 +18,24 @@ public class DeleteServlet extends HttpServlet {
 	@Override
 	protected void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		String recipeId = request.getParameter("id");
+		request.setAttribute("recipeId",recipeId);
+		request.getServletContext().getRequestDispatcher("/confirmDeleteRecipeFromPlan.jsp").forward(request, response);
 		
-		Integer id = Integer.parseInt(request.getParameter("id"));
-		RecipePlanDao recipePlanDao = new RecipePlanDao();
-		recipePlanDao.delete(id);
-		
-		response.sendRedirect(request.getContextPath() + "/app/plan/details");
 	}
 	
 	@Override
 	protected void doPost (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		
+		RecipePlanDao recipePlanDao = new RecipePlanDao();
+		String recipeId = request.getParameter("recipeId");
+		try{
+			int _recipeId = Integer.parseInt(recipeId);
+			recipePlanDao.delete(_recipeId);
+		}catch(NumberFormatException e){
+			e.printStackTrace();
+		}
+		
+		response.sendRedirect("/app/plan/details");
 	}
 }
