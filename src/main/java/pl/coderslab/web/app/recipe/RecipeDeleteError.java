@@ -1,16 +1,15 @@
-package pl.coderslab.web;
+package pl.coderslab.web.app.recipe;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(name = "DeletePlanConfirmation", value = "/app/plan/confirmDelete")
-public class DeletePlanConfirmation extends HttpServlet {
+@WebServlet(name = "RecipeDeleteError", value = "/app/recipe/delete/error")
+public class RecipeDeleteError extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String planId = request.getParameter("id");
-        response.sendRedirect("/confirmDeletePlan.jsp?id="+planId);
+        request.getServletContext().getRequestDispatcher("/confirmDelete.jsp").forward(request,response);
     }
 
     @Override
