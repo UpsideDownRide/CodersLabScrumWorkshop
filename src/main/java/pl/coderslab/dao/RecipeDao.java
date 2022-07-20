@@ -20,6 +20,7 @@ public class RecipeDao {
     private static final String FIND_ALL_USER_RECIPES_QUERY = "SELECT * FROM recipe WHERE admin_id = ?";
     private static final String FIND_AMOUNT_OF_USER_RECIPES_QUERY = "SELECT COUNT(*) as count FROM recipe WHERE admin_id = ?";
     private static final String READ_RECIPE_QUERY = "SELECT * from recipe where id = ?;";
+    private static final String READ_RECIPE_BY_NAME_QUERY = "SELECT * from recipe where name = ?;";
     private static final String UPDATE_RECIPE_QUERY = "UPDATE recipe SET" +
             " name = ?," +
             " ingredients = ?," +
@@ -43,6 +44,30 @@ public class RecipeDao {
              PreparedStatement statement = connection.prepareStatement(READ_RECIPE_QUERY)
         ) {
             statement.setInt(1, recipeId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    recipe.setId(resultSet.getInt("id"));
+                    recipe.setName(resultSet.getString("name"));
+                    recipe.setIngredients(resultSet.getString("ingredients"));
+                    recipe.setDescription(resultSet.getString("description"));
+                    recipe.setCreated(resultSet.getDate("created"));
+                    recipe.setUpdated(resultSet.getDate("updated"));
+                    recipe.setPreparationTime(resultSet.getInt("preparation_time"));
+                    recipe.setPreparation(resultSet.getString("preparation"));
+                    recipe.setAdminId(resultSet.getInt("admin_id"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return recipe;
+    }
+    public Recipe readByName(String name) {
+        Recipe recipe = new Recipe();
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(READ_RECIPE_BY_NAME_QUERY)
+        ) {
+            statement.setString(1, name);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     recipe.setId(resultSet.getInt("id"));
