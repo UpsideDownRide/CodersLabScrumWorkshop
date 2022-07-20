@@ -13,9 +13,9 @@ import java.util.List;
 
 @WebServlet(name = "AppPlanList", value = "/app/plan/list")
 public class ListServlet extends HttpServlet {
+    private final PlanDao planDao = new PlanDao();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PlanDao planDao = new PlanDao();
         ServletContext servletContext = getServletContext();
         Admin currentUser = (Admin) servletContext.getAttribute("User");
         List<Plan> allPlans = planDao.findAllByUser(currentUser.getId());
