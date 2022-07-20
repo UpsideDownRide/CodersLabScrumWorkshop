@@ -17,3 +17,4 @@ _site/
 .idea/
 .eclipse
 src/main/java/pl/coderslab/dao/ServletTest.java
+pom.xml

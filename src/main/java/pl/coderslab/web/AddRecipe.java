@@ -9,6 +9,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDate;
 
 @WebServlet(name = "AddRecipe", value = "/app/recipe/add")
 public class AddRecipe extends HttpServlet {
@@ -20,6 +21,8 @@ public class AddRecipe extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RecipeDao recipeDao = new RecipeDao();
+        long millis =System.currentTimeMillis();
+        Date date = new Date(millis);
         ServletContext servletContext = getServletContext();
         Admin loggedUser = (Admin) servletContext.getAttribute("User");
 
@@ -38,7 +41,8 @@ public class AddRecipe extends HttpServlet {
         recipe.setPreparationTime(time);
         recipe.setPreparation(preparing);
         recipe.setIngredients(ingredients);
-        recipe.setAdminId(loggedUser.getId()); //
+        recipe.setAdminId(loggedUser.getId());
+        recipe.setCreated(date);
 
         recipeDao.create(recipe);
 
