@@ -1,6 +1,7 @@
-package pl.coderslab;
+package pl.coderslab.web;
 
 import pl.coderslab.dao.RecipeDao;
+import pl.coderslab.model.Recipe;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -18,6 +19,14 @@ public class AllRecipes extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        String name = request.getParameter("name");
+        RecipeDao recipeDao = new RecipeDao();
+        Recipe recipe = recipeDao.readByName(name);
+        if (recipe.getName() == null || recipe.getName().isBlank()) {
+            response.sendRedirect(request.getContextPath() + "/allRecipes");
+        } else {
+            request.setAttribute("recipe", recipe);
+            request.getServletContext().getRequestDispatcher("/displayRecipeByName.jsp").forward(request, response);
+        }
     }
 }
