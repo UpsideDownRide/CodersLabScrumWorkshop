@@ -29,8 +29,8 @@ public class RecipeDelete extends HttpServlet {
         }catch(NumberFormatException e){
             e.printStackTrace();
         } catch (NotAvailableException e) {
-            throw new RuntimeException(e);
-
+            response.sendRedirect("/recipeDeleteError.jsp");
+            return;
         }
 
         response.sendRedirect("/app/recipe/list");
