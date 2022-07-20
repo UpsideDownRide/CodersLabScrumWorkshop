@@ -20,7 +20,7 @@ public class Dashboard extends HttpServlet {
         int id = loggedUser.getId();
 
         request.setAttribute("admin", loggedUser.getFirstName());
-        request.setAttribute("plans", planDao.planSum(id));
+        request.setAttribute("plans", planDao.planCount(id));
         request.setAttribute("recipes",recipeDao.amountOfRecipesOfUser(id));
         // dodac szczegoly planu jak beda zrobione
         getServletContext().getRequestDispatcher("/dashboard.jsp").forward(request, response);
