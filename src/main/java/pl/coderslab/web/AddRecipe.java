@@ -23,8 +23,8 @@ public class AddRecipe extends HttpServlet {
         RecipeDao recipeDao = new RecipeDao();
         long millis =System.currentTimeMillis();
         Date date = new Date(millis);
-        ServletContext servletContext = getServletContext();
-        Admin loggedUser = (Admin) servletContext.getAttribute("User");
+        HttpSession session = request.getSession();
+        Admin loggedUser = (Admin) session.getAttribute("User");
 
         String recipeName = request.getParameter("name");
         String description = request.getParameter("description");

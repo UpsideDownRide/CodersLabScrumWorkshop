@@ -15,8 +15,8 @@ public class Dashboard extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PlanDao planDao = new PlanDao();
         RecipeDao recipeDao = new RecipeDao();
-        ServletContext servletContext = getServletContext();
-        Admin loggedUser = (Admin) servletContext.getAttribute("User");
+        HttpSession session = request.getSession();
+        Admin loggedUser = (Admin) session.getAttribute("User");
         int id = loggedUser.getId();
 
         request.setAttribute("admin", loggedUser.getFirstName());

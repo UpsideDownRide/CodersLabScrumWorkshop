@@ -21,7 +21,7 @@ public class Login extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         Admin userToAuthorize = adminDao.findByEmail((email));
-        ServletContext applicationContext = getServletContext();
+        HttpSession session = request.getSession();
 
         if (userToAuthorize == null) {
             response.sendRedirect("/login");
@@ -30,8 +30,8 @@ public class Login extends HttpServlet {
 
         boolean validPassword = adminDao.validPassword(userToAuthorize, password);
         if (validPassword) {
-            applicationContext.setAttribute("User", userToAuthorize);
-            applicationContext.setAttribute("Authorized", true);
+            session.setAttribute("User", userToAuthorize);
+            session.setAttribute("Authorized", true);
             response.sendRedirect("/dashboard");
         } else {
             response.sendRedirect("/login");

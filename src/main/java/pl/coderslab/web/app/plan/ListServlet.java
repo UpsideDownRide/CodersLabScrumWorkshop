@@ -16,8 +16,8 @@ public class ListServlet extends HttpServlet {
     private final PlanDao planDao = new PlanDao();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ServletContext servletContext = getServletContext();
-        Admin currentUser = (Admin) servletContext.getAttribute("User");
+        HttpSession session = request.getSession();
+        Admin currentUser = (Admin) session.getAttribute("User");
         List<Plan> allPlans = planDao.findAllByUser(currentUser.getId());
         allPlans.sort(Comparator.comparing(Plan::getCreated).reversed());
         request.setAttribute("plans", allPlans);

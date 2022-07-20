@@ -21,8 +21,9 @@ public class EditUser extends HttpServlet {
         String lastName = request.getParameter("lastName");
         String email = request.getParameter("email");
 
-        ServletContext servletContext = getServletContext();
-        Admin loggedUser = (Admin) servletContext.getAttribute("User");
+        HttpSession session = request.getSession();
+        Admin loggedUser = (Admin) session.getAttribute("User");
+
         int userId = loggedUser != null ? loggedUser.getId() : 0;
         String password = loggedUser.getPassword();
 

@@ -20,8 +20,8 @@ public class UserEditPassword extends HttpServlet {
         String newPassword = request.getParameter("newPassword");
         String repeatPassword = request.getParameter("repeatPassword");
 
-        ServletContext servletContext = getServletContext();
-        Admin loggedUser = (Admin) servletContext.getAttribute("User");
+        HttpSession session = request.getSession();
+        Admin loggedUser = (Admin) session.getAttribute("User");
         int userId = loggedUser != null ? loggedUser.getId() : 0;
 
         if(newPassword.equals(repeatPassword)){

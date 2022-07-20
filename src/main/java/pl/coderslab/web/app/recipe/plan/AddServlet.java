@@ -16,8 +16,8 @@ import java.util.List;
 public class AddServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ServletContext context = request.getServletContext();
-        Admin user = (Admin) context.getAttribute("User");
+        HttpSession session = request.getSession();
+        Admin user = (Admin) session.getAttribute("User");
         int userId = user != null ? user.getId() : 0;
 
         PlanDao planDao = new PlanDao();

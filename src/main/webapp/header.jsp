@@ -12,10 +12,10 @@
   <link href='<c:url value="/css/style.css"/>' rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 </head>
-<c:if test="${applicationScope['Authorized'] != null && applicationScope['Authorized']}">
+<c:if test="${sessionScope['Authorized'] != null && sessionScope['Authorized']}">
   <jsp:include page="header_authorized.jsp"/>
 </c:if>
-<c:if test="${applicationScope['Authorized'] == null || applicationScope['Authorized'] == false}">
+<c:if test="${sessionScope['Authorized'] == null || sessionScope['Authorized'] == false}">
   <jsp:include page="header_unauthorized.jsp"/>
 </c:if>
 <body>
