@@ -42,6 +42,7 @@
                 <h2 class="dashboard-content-title">
                     <span>Ostatnio dodany plan:</span> ${plan.name}
                 </h2>
+
                 <jsp:useBean id="recipePlanDetailsByDay" scope="request" type="java.util.Map"/>
                 <c:forEach var="day" items="${recipePlanDetailsByDay.keySet()}">
                     <table class="table">
@@ -64,6 +65,7 @@
                         </tbody>
                     </table>
                 </c:forEach>
+
             </div>
         </div>
     </div>
