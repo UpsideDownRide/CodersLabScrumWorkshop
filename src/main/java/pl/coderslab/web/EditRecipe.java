@@ -1,4 +1,4 @@
-package pl.coderslab.web.filters;
+package pl.coderslab.web;
 
 import pl.coderslab.dao.RecipeDao;
 import pl.coderslab.model.Recipe;
@@ -7,6 +7,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.Date;
 
 @WebServlet("/app/recipe/edit")
 public class EditRecipe extends HttpServlet {
@@ -32,6 +33,8 @@ public class EditRecipe extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Recipe recipe = new Recipe();
+        long millis =System.currentTimeMillis();
+        Date date = new Date(millis);
         recipe.setAdminId(Integer.parseInt(request.getParameter("adminId")));
         recipe.setName(request.getParameter("name"));
         recipe.setId(Integer.parseInt(request.getParameter("recipeId")));
@@ -39,6 +42,7 @@ public class EditRecipe extends HttpServlet {
         recipe.setIngredients(request.getParameter("ingredients"));
         recipe.setPreparation(request.getParameter("preparation"));
         recipe.setPreparationTime(Integer.parseInt(request.getParameter("preparationTime")));
+        recipe.setUpdated(date);
 
         RecipeDao recipeDao = new RecipeDao();
         recipeDao.update(recipe);
