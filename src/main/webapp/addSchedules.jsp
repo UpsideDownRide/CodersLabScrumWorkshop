@@ -1,6 +1,9 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="header.jsp"/>
+<section class="dashboard-section">
+    <div class="row dashboard-nowrap">
+        <jsp:include page="sidebar.jsp"/>
 <div class="m-4 p-3 width-medium">
     <div class="dashboard-content border-dashed p-3 m-4 view-height">
         <!-- fix action, method -->
@@ -39,4 +42,6 @@
         </form>
     </div>
 </div>
+    </div>
+</section>
 <jsp:include page="footer.jsp"/>

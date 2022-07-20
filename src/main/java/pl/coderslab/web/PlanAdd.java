@@ -39,6 +39,6 @@ public class PlanAdd extends HttpServlet {
 		PlanDao planDao = new PlanDao();
 		planDao.create(plan);
 		
-		
+		response.sendRedirect(request.getContextPath() + "/app/plan/list");
 	}
 }

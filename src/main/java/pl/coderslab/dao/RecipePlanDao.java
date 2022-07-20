@@ -1,6 +1,7 @@
 package pl.coderslab.dao;
 
 import pl.coderslab.exception.NotFoundException;
+import pl.coderslab.model.Recipe;
 import pl.coderslab.model.RecipePlan;
 import pl.coderslab.utils.DbUtil;
 
@@ -13,6 +14,7 @@ import java.util.List;
 
 public class RecipePlanDao {
     // ZAPYTANIA SQL
+    private static final String FIND_ALL_RECIPE_PLAN_BY_PLAN_ID_QUERY = "select * from recipe_plan where plan_id=? order by display_order";
     private static final String CREATE_RECIPE_PLAN_QUERY = "INSERT INTO recipe_plan(recipe_id, meal_name, display_order, day_name_id, plan_id) VALUES (?,?,?,?,?);";
     private static final String DELETE_RECIPE_PLAN_QUERY = "DELETE FROM recipe_plan where id = ?;";
     private static final String FIND_ALL_RECIPE_PLANS_QUERY = "SELECT * FROM recipe_plan;";
@@ -158,6 +160,31 @@ public class RecipePlanDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public List<RecipePlan> findRecipePlan(int planId) {
+        List<RecipePlan> recipePlanList = new ArrayList<>();
+        
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_RECIPE_PLAN_BY_PLAN_ID_QUERY )) {
+            statement.setInt(1, planId);
+            ResultSet rs = statement.executeQuery();
+            
+            while (rs.next()) {
+                RecipePlan recipePlan = new RecipePlan();
+                recipePlan.setId(rs.getInt("id"));
+                recipePlan.setRecipeId(rs.getInt("recipe_id"));
+                recipePlan.setMealName(rs.getString("meal_name"));
+                recipePlan.setDisplayOrder(rs.getInt("display_order"));
+                recipePlan.setDayNameId(rs.getInt("day_name_id"));
+                recipePlan.setPlanId(rs.getInt("plan_id"));
+                recipePlanList.add(recipePlan);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return recipePlanList;
+        
     }
 
 }
