@@ -16,7 +16,7 @@ public class RecipeDao {
     // ZAPYTANIA SQL
     private static final String CREATE_RECIPE_QUERY = "INSERT INTO recipe(name, ingredients, description, created, updated, preparation_time, preparation, admin_id) VALUES (?,?,?,?,?,?,?,?);";
     private static final String DELETE_RECIPE_QUERY = "DELETE FROM recipe where id = ?;";
-    private static final String FIND_ALL_RECIPES_QUERY = "SELECT * FROM recipe;";
+    private static final String FIND_ALL_RECIPES_QUERY = "SELECT * FROM recipe order by created desc ;";
     private static final String FIND_ALL_USER_RECIPES_QUERY = "SELECT * FROM recipe WHERE admin_id = ?";
     private static final String FIND_AMOUNT_OF_USER_RECIPES_QUERY = "SELECT COUNT(*) as count FROM recipe WHERE admin_id = ?";
     private static final String READ_RECIPE_QUERY = "SELECT * from recipe where id = ?;";
