@@ -1,6 +1,7 @@
 package pl.coderslab.web.app.plan;
 
 import pl.coderslab.dao.PlanDao;
+import pl.coderslab.model.Admin;
 import pl.coderslab.model.Plan;
 
 import javax.servlet.*;
@@ -15,7 +16,9 @@ public class ListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PlanDao planDao = new PlanDao();
-        List<Plan> allPlans = planDao.findAll();
+        ServletContext servletContext = getServletContext();
+        Admin currentUser = (Admin) servletContext.getAttribute("User");
+        List<Plan> allPlans = planDao.findAllByUser(currentUser.getId());
         allPlans.sort(Comparator.comparing(Plan::getCreated).reversed());
         request.setAttribute("plans", allPlans);
         request.getRequestDispatcher("/appPlanList.jsp").forward(request, response);
