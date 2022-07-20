@@ -1,4 +1,4 @@
-package pl.coderslab.web;
+package pl.coderslab.web.app.recipe.plan;
 
 import pl.coderslab.dao.DayNameDao;
 import pl.coderslab.dao.PlanDao;
@@ -17,10 +17,11 @@ import java.util.List;
 
 
 @WebServlet(name = "AppPlanDetails", value = "/app/plan/details")
-public class AppPlanDetails extends HttpServlet {
+public class DetailsServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String id = request.getParameter("id");
 		PlanDao planDao = new PlanDao();
 		Plan plan = planDao.read(Integer.parseInt(id));

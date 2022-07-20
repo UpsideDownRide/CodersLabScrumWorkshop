@@ -15,13 +15,13 @@ public class DeleteServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(true) {
-			Integer id = Integer.parseInt(request.getParameter("id"));
-			RecipePlanDao recipePlanDao = new RecipePlanDao();
-			recipePlanDao.delete(id);
-			request.getServletContext().getRequestDispatcher("/app/plan/details").forward(request, response);
-		}
-		response.sendRedirect(request.getContextPath() + "/app/plan/list");
+		
+		
+		Integer id = Integer.parseInt(request.getParameter("id"));
+		RecipePlanDao recipePlanDao = new RecipePlanDao();
+		recipePlanDao.delete(id);
+		
+		response.sendRedirect(request.getContextPath() + "/app/plan/details");
 	}
 	
 	@Override
