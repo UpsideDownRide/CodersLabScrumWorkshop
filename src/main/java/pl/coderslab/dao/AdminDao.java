@@ -125,31 +125,19 @@ public class AdminDao {
         }
     }
 
-    public void updatePasswordHash(Admin admin) {
-        try (Connection connection = DbUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_ADMIN_QUERY)) {
-            statement.setInt(7, admin.getId());
-            statement.setString(1, admin.getFirstName());
-            statement.setString(2, admin.getLastName());
-            statement.setString(3, admin.getEmail());
-            statement.setString(4, hashPassword(admin.getPassword()));
-            statement.setInt(5, admin.getSuperadmin());
-            statement.setInt(6, admin.getEnable());
-
-            statement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    public void updatePasswordHash(Admin admin, String unhashedPassword) {
+        admin.setPassword(hashPassword(unhashedPassword));
+        update(admin);
     }
-    public void updatePasswordNoHash(Admin admin, String password) {
+
+    public void update(Admin admin) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_ADMIN_QUERY)) {
             statement.setInt(7, admin.getId());
             statement.setString(1, admin.getFirstName());
             statement.setString(2, admin.getLastName());
             statement.setString(3, admin.getEmail());
-            statement.setString(4, password);
+            statement.setString(4, admin.getPassword());
             statement.setInt(5, admin.getSuperadmin());
             statement.setInt(6, admin.getEnable());
 

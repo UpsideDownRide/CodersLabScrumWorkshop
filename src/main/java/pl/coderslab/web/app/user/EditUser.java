@@ -27,7 +27,6 @@ public class EditUser extends HttpServlet {
         Admin loggedUser = (Admin) session.getAttribute("User");
 
         int userId = loggedUser != null ? loggedUser.getId() : 0;
-        String password = loggedUser.getPassword();
 
         Admin admin = new Admin();
         admin.setId(userId);
@@ -36,7 +35,7 @@ public class EditUser extends HttpServlet {
         admin.setEmail(email);
         admin.setSuperadmin(0);
         admin.setEnable(1);
-        adminDao.updatePasswordNoHash(admin,password);
+        adminDao.update(admin);
         session.setAttribute("User", admin);
         response.sendRedirect("/dashboard");
 

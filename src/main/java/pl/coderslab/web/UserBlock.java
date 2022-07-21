@@ -16,9 +16,8 @@ public class UserBlock extends HttpServlet {
         Admin admin;
         AdminDao adminDao = new AdminDao();
         admin = adminDao.read(Integer.parseInt(userId));
-        String password = admin.getPassword();
         admin.setEnable(0);
-        adminDao.updatePasswordNoHash(admin, password);
+        adminDao.update(admin);
         response.sendRedirect("/app/user/superAdmin");
 
     }

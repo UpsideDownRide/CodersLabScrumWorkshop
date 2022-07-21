@@ -19,7 +19,6 @@ public class UserEditPassword extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String newPassword = request.getParameter("newPassword");
         String repeatPassword = request.getParameter("repeatPassword");
-
         HttpSession session = request.getSession();
         Admin loggedUser = (Admin) session.getAttribute("User");
         int userId = loggedUser != null ? loggedUser.getId() : 0;
@@ -30,15 +29,15 @@ public class UserEditPassword extends HttpServlet {
             admin.setId(userId);
             admin.setFirstName(loggedUser.getFirstName());
             admin.setLastName(loggedUser.getLastName());
-            admin.setPassword(newPassword);
             admin.setEmail(loggedUser.getEmail());
             admin.setSuperadmin(0);
             admin.setEnable(1);
-            adminDao.updatePasswordHash(admin);
+            admin.setPassword(null);
+            adminDao.updatePasswordHash(admin, newPassword);
             session.setAttribute("User", admin);
             response.sendRedirect("/dashboard");
 
-        }else {
+        } else {
             response.sendRedirect("/passwordIncorrect.jsp");
         }
 
