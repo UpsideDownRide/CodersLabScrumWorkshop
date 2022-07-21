@@ -1,13 +1,7 @@
 package pl.coderslab.web;
 
-import pl.coderslab.dao.DayNameDao;
-import pl.coderslab.dao.PlanDao;
-import pl.coderslab.dao.RecipeDao;
-import pl.coderslab.dao.RecipePlanDao;
-import pl.coderslab.model.Admin;
-import pl.coderslab.model.DayName;
-import pl.coderslab.model.Plan;
-import pl.coderslab.model.RecipePlanDetails;
+import pl.coderslab.dao.*;
+import pl.coderslab.model.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -43,6 +37,9 @@ public class Dashboard extends HttpServlet {
                     .stream()
                     .collect(groupingBy(RecipePlanDetails::getDayName));
             request.setAttribute("recipePlanDetailsByDay", recipePlanDetailsByDay);
+    
+      
+            
             getServletContext().getRequestDispatcher("/dashboard.jsp").forward(request, response);
 
         } catch (NumberFormatException e) {
