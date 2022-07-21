@@ -26,7 +26,7 @@
                                     <jsp:useBean id="plans" scope="request" type="java.util.List"/>
                                     <c:forEach var="plan" items="${plans}">
                                         <jsp:useBean id="plan" scope="request" class="pl.coderslab.model.Plan"/>
-                                        <option value="${plan.id}">${plan.description}</option>
+                                        <option value="${plan.id}">${plan.name}</option>
                                     </c:forEach>
                                 </select>
                             </div>
