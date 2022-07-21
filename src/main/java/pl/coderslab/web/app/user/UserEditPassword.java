@@ -33,10 +33,10 @@ public class UserEditPassword extends HttpServlet {
             admin.setPassword(newPassword);
             admin.setEmail(loggedUser.getEmail());
             admin.setSuperadmin(0);
-            admin.setEnable(0);
-            adminDao.update(admin);
-            response.sendRedirect("/dashboard.jsp");
-
+            admin.setEnable(1);
+            adminDao.updatePasswordHash(admin);
+            session.setAttribute("User", admin);
+            response.sendRedirect("/dashboard");
 
         }else {
             response.sendRedirect("/passwordIncorrect.jsp");

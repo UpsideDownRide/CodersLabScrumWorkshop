@@ -13,11 +13,12 @@ public class UserBlock extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userId = request.getParameter("userId");
-        Admin admin = new Admin();
+        Admin admin;
         AdminDao adminDao = new AdminDao();
         admin = adminDao.read(Integer.parseInt(userId));
+        String password = admin.getPassword();
         admin.setEnable(0);
-        adminDao.update(admin);
+        adminDao.updatePasswordNoHash(admin, password);
         response.sendRedirect("/app/user/superAdmin");
 
     }
