@@ -21,6 +21,7 @@ public class Login extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         Admin userToAuthorize = adminDao.findByEmail((email));
+        int superAdmin = userToAuthorize.getSuperadmin();
         HttpSession session = request.getSession();
 
         if (userToAuthorize == null) {
@@ -32,6 +33,7 @@ public class Login extends HttpServlet {
         if (validPassword) {
             session.setAttribute("User", userToAuthorize);
             session.setAttribute("Authorized", true);
+            session.setAttribute("superAdmin",superAdmin);
             response.sendRedirect("/dashboard");
         } else {
             response.sendRedirect("/login");
