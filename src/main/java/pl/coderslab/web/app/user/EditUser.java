@@ -33,13 +33,12 @@ public class EditUser extends HttpServlet {
         admin.setId(userId);
         admin.setFirstName(firstName);
         admin.setLastName(lastName);
-        admin.setPassword(password);
         admin.setEmail(email);
         admin.setSuperadmin(0);
         admin.setEnable(1);
-        adminDao.update(admin);
+        adminDao.updatePasswordNoHash(admin,password);
 
-        response.sendRedirect("/dashboard.jsp");
+        response.sendRedirect("/dashboard");
 
     }
 }

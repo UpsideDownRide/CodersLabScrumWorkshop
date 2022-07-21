@@ -125,7 +125,7 @@ public class AdminDao {
         }
     }
 
-    public void update(Admin admin) {
+    public void updatePasswordHash(Admin admin) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_ADMIN_QUERY)) {
             statement.setInt(7, admin.getId());
@@ -142,7 +142,7 @@ public class AdminDao {
         }
 
     }
-    public void updateEnabled(Admin admin, String password) {
+    public void updatePasswordNoHash(Admin admin, String password) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_ADMIN_QUERY)) {
             statement.setInt(7, admin.getId());
