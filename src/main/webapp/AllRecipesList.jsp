@@ -3,7 +3,7 @@
 
 <jsp:include page="header.jsp"/>
 <section>
-    <div class="row padding-small">
+    <div class="row padding-small" style="margin: 0">
         <i class="fas fa-users icon-users"></i>
         <h1>Przepisy naszych użytkowników:</h1>
         <hr>
