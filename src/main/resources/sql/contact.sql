@@ -8,3 +8,6 @@ CREATE TABLE contact (
 
                           PRIMARY KEY(id)
 );
+INSERT INTO contact ( name, email,  address, phone, description) VALUES
+
+                                                         ( 'ZaplanujJedzonko', 'zaplanuj@gmail.com', 'Warszawa ul. Polna 34', 789354427, 'Skontaktuj się znami tel. lub mailowo. można też znaleźć nas na Facebooku')
