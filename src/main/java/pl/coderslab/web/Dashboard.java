@@ -2,6 +2,7 @@ package pl.coderslab.web;
 
 import pl.coderslab.dao.*;
 import pl.coderslab.model.*;
+import pl.coderslab.web._helpers.PlanDetailsHelper;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -30,16 +31,11 @@ public class Dashboard extends HttpServlet {
         RecipePlanDao recipePlanDao = new RecipePlanDao();
         try {
             Plan plan = planDao.lastAddedPlan(id);
-                List<RecipePlanDetails> recipePlanDetails = recipePlanDao.findRecipePlanDetails(plan.getId());
-                request.setAttribute("plan", plan);
-                Map<String, List<RecipePlanDetails>> recipePlanDetailsByDay = recipePlanDetails
-                        .stream()
-                        .collect(groupingBy(RecipePlanDetails::getDayName));
-                request.setAttribute("recipePlanDetailsByDay", recipePlanDetailsByDay);
-
-
-
-                getServletContext().getRequestDispatcher("/dashboard.jsp").forward(request, response);
+            request.setAttribute("plan", plan);
+            List<RecipePlanDetails> recipePlanDetails = recipePlanDao.findRecipePlanDetails(plan.getId());
+            Map<String, List<RecipePlanDetails>> recipePlanDetailsByDay = PlanDetailsHelper.groupByDay(recipePlanDetails);
+            request.setAttribute("recipePlanDetailsByDay", recipePlanDetailsByDay);
+            getServletContext().getRequestDispatcher("/dashboard.jsp").forward(request, response);
 
         } catch (NumberFormatException e) {
             e.printStackTrace();

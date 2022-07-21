@@ -3,12 +3,14 @@ package pl.coderslab.web.app.plan;
 import pl.coderslab.dao.PlanDao;
 import pl.coderslab.dao.RecipePlanDao;
 import pl.coderslab.model.*;
+import pl.coderslab.web._helpers.PlanDetailsHelper;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 
@@ -27,11 +29,9 @@ public class DetailsServlet extends HttpServlet {
 			Plan plan = planDao.read(planId);
 			List<RecipePlanDetails> recipePlanDetails = recipePlanDao.findRecipePlanDetails(planId);
 			request.setAttribute("plan", plan);
-			Map<String, List<RecipePlanDetails>> recipePlanDetailsByDay = recipePlanDetails
-					.stream()
-					.collect(groupingBy(RecipePlanDetails::getDayName));
+			Map<String, List<RecipePlanDetails>> recipePlanDetailsByDay = PlanDetailsHelper.groupByDay(recipePlanDetails);
 			request.setAttribute("recipePlanDetailsByDay", recipePlanDetailsByDay);
-    		getServletContext().getRequestDispatcher("/appPlanDetails.jsp").forward(request,response);
+			getServletContext().getRequestDispatcher("/appPlanDetails.jsp").forward(request, response);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid recipe plan id");
