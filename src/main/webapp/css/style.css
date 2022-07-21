@@ -27,6 +27,9 @@ body {
   font-family: "Open Sans", sans-serif;
   font-weight: 400;
   background: repeat url("../images/image.png");
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 p {
@@ -277,6 +280,8 @@ margin: 0 auto !important;
 /*------------------------------*/
 
 .footer-section{
+  z-index: 2;
+  margin-top: auto;
   background: var(--background-color);
 }
 
@@ -318,6 +323,11 @@ margin: 0 auto !important;
 	vertical-align: top;
 	min-height: 100%;
 }
+
+.dashboard-section > ul.nav {
+  position: fixed;
+}
+
 .dashboard-section .nav-item {
   display: block;
   width: 260px;
@@ -335,6 +345,11 @@ margin: 0 auto !important;
   font-size: 1.5rem;
   border-left: 5px solid transparent;
 }
+
+.dashboard-section > div.row {
+  margin-left: 260px;
+}
+
 .dashboard-section .nav-item a.active,
 .dashboard-section .nav-item a:hover {
   border-left: 5px solid var(--link-color);
@@ -458,11 +473,11 @@ margin: 0 auto !important;
   margin-bottom: 50px;
 }
 
-/* Hot fixes */
-.dashboard-section > .row {
-  min-height: calc(100vh - 64px - 84px);
-}
+/*!* Hot fixes *!*/
+/*.dashboard-section > .row {*/
+/*  min-height: calc(100vh - 64px - 84px);*/
+/*}*/
 
-.dashboard-section {
-  min-height: calc(100vh - 64px - 84px);
-}
+/*.dashboard-section {*/
+/*  min-height: calc(100vh - 64px - 84px);*/
+/*}*/

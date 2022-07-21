@@ -3,8 +3,8 @@
 
 <jsp:include page="header.jsp"/>
 <section class="dashboard-section">
+    <jsp:include page="sidebar.jsp"/>
     <div class="row dashboard-nowrap">
-        <jsp:include page="sidebar.jsp"/>
         <div class="m-4 p-3 width-medium">
             <div class="dashboard-content border-dashed p-3 m-4 view-height">
                 <div class="row border-bottom border-3 p-1 m-1">
