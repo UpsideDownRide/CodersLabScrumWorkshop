@@ -9,7 +9,6 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.Date;
-import java.time.LocalDate;
 
 @WebServlet(name = "AddRecipe", value = "/app/recipe/add")
 public class AddRecipe extends HttpServlet {

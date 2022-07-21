@@ -1,7 +1,6 @@
 package pl.coderslab.dao;
 
 import pl.coderslab.exception.NotFoundException;
-import pl.coderslab.model.Recipe;
 import pl.coderslab.model.RecipePlan;
 import pl.coderslab.model.RecipePlanDetails;
 import pl.coderslab.utils.DbUtil;

@@ -1,7 +1,6 @@
 package pl.coderslab.web.app.recipe;
 
 import pl.coderslab.dao.RecipeDao;
-import pl.coderslab.model.Admin;
 import pl.coderslab.model.Recipe;
 
 import javax.servlet.*;

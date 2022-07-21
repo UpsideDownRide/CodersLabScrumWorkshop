@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 
 <jsp:include page="header.jsp"/>
 <section class="dashboard-section">
@@ -13,7 +13,7 @@
                             <h3 class="color-header text-uppercase">LISTA UŻYTKOWNIKÓW</h3>
                         </div>
                         <div class="col d-flex justify-content-end mb-2 noPadding">
-                            <a href="/dashboard" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
+                            <a href="${pageContext.request.contextPath}/dashboard" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
                         </div>
                     </div>
 
@@ -29,14 +29,16 @@
                                 </tr>
                             </thead>
                             <tbody class="text-color-lighter">
+                            <jsp:useBean id="adminList" scope="request" type="java.util.List"/>
                             <c:forEach var="admin" items="${adminList}">
+                                <jsp:useBean id="admin" scope="request" class="pl.coderslab.model.Admin"/>
                                 <tr class="d-flex">
                                     <td class="col-1">${admin.id}</td>
                                     <td class="col-2">${admin.firstName}</td>
                                     <td class="col-3">${admin.lastName}</td>
                                     <td class="col-3">${admin.enable}</td>
                                     <td class="col-3 center">
-                                        <a href="/app/user/superAdmin/userBlock?userId=${admin.id}" class="btn btn-danger rounded-0 text-light m-1">Blokuj</a>
+                                        <a href="${pageContext.request.contextPath}/app/user/superAdmin/userBlock?userId=${admin.id}" class="btn btn-danger rounded-0 text-light m-1">Blokuj</a>
                                     </td>
                                 </tr>
                             </c:forEach>

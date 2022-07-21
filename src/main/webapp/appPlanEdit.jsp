@@ -1,5 +1,5 @@
 <jsp:useBean id="plan" scope="request" class="pl.coderslab.model.Plan"/>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <jsp:include page="header.jsp"/>
     <section class="dashboard-section">
     <div class="row dashboard-nowrap">

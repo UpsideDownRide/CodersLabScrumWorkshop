@@ -1,16 +1,13 @@
 package pl.coderslab.dao;
 
 import pl.coderslab.model.DayName;
-import pl.coderslab.model.Recipe;
 import pl.coderslab.utils.DbUtil;
 
-import java.awt.print.Book;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DayNameDao {

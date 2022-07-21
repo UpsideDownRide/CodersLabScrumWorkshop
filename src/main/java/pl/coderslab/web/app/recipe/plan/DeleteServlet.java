@@ -1,10 +1,6 @@
 package pl.coderslab.web.app.recipe.plan;
 
-import pl.coderslab.dao.NotAvailableException;
-import pl.coderslab.dao.PlanDao;
-import pl.coderslab.dao.RecipeDao;
 import pl.coderslab.dao.RecipePlanDao;
-import pl.coderslab.model.Plan;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -14,7 +10,7 @@ import java.io.IOException;
 
 @WebServlet(name = "DeleteServlet", value = "/app/recipe/plan/delete")
 public class DeleteServlet extends HttpServlet {
-	RecipePlanDao recipePlanDao = new RecipePlanDao();
+	final RecipePlanDao recipePlanDao = new RecipePlanDao();
 	@Override
 	protected void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		

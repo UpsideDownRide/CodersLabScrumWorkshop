@@ -1,7 +1,5 @@
 package pl.coderslab.web.app.recipe;
 
-import pl.coderslab.dao.RecipeDao;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;

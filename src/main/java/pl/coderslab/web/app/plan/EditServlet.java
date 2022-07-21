@@ -7,14 +7,12 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.sql.SQLException;
 
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
-import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 @WebServlet(name = "EditServlet", value = "/app/plan/edit")
 public class EditServlet extends HttpServlet {
-    PlanDao planDao = new PlanDao();
+    final PlanDao planDao = new PlanDao();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String _planId = request.getParameter("id");

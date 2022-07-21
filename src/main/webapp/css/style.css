@@ -78,6 +78,7 @@ hr {
   height: 1px;
 }
 
+/*noinspection ALL*/
 .border-dashed{
   border: .5px dashed  var(--lighter-background-color);
   background: var(--light-link-color);

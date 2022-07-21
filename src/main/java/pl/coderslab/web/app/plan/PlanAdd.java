@@ -15,7 +15,7 @@ import java.sql.Date;
 @WebServlet(name = "PlanAdd", value = "/app/plan/add")
 public class PlanAdd extends HttpServlet {
 
-	PlanDao planDao = new PlanDao();
+	final PlanDao planDao = new PlanDao();
 
 	@Override
 	protected void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

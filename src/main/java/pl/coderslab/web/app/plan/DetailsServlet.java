@@ -1,8 +1,6 @@
 package pl.coderslab.web.app.plan;
 
-import pl.coderslab.dao.DayNameDao;
 import pl.coderslab.dao.PlanDao;
-import pl.coderslab.dao.RecipeDao;
 import pl.coderslab.dao.RecipePlanDao;
 import pl.coderslab.model.*;
 
@@ -11,15 +9,14 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 
 
 @WebServlet(name = "AppPlanDetails", value = "/app/plan/details")
 public class DetailsServlet extends HttpServlet {
-	PlanDao planDao = new PlanDao();
-	RecipePlanDao recipePlanDao = new RecipePlanDao();
+	final PlanDao planDao = new PlanDao();
+	final RecipePlanDao recipePlanDao = new RecipePlanDao();
 
 	@Override
 	protected void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -10,7 +10,7 @@ import java.io.IOException;
 
 @WebServlet(name = "EditUser", value = "/app/user/edit")
 public class EditUser extends HttpServlet {
-    AdminDao adminDao = new AdminDao();
+    final AdminDao adminDao = new AdminDao();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

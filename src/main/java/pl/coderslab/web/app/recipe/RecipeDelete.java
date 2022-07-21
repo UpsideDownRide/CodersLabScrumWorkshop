@@ -1,6 +1,5 @@
 package pl.coderslab.web.app.recipe;
 
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import pl.coderslab.dao.NotAvailableException;
 import pl.coderslab.dao.RecipeDao;
 
