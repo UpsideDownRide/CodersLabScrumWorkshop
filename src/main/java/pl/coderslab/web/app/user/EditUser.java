@@ -37,7 +37,7 @@ public class EditUser extends HttpServlet {
         admin.setEnable(1);
         adminDao.update(admin);
         session.setAttribute("User", admin);
-        response.sendRedirect("/dashboard");
+        response.sendRedirect("/app/dashboard");
 
     }
 }

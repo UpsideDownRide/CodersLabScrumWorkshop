@@ -10,6 +10,8 @@ import java.io.IOException;
 
 @WebServlet(name = "Login", value = "/login")
 public class Login extends HttpServlet {
+    AdminDao adminDao = new AdminDao();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
@@ -17,7 +19,6 @@ public class Login extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        AdminDao adminDao = new AdminDao();
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         Admin userToAuthorize = adminDao.findByEmail((email));
@@ -35,7 +36,7 @@ public class Login extends HttpServlet {
             session.setAttribute("User", userToAuthorize);
             session.setAttribute("Authorized", true);
             session.setAttribute("superAdmin",superAdmin);
-            response.sendRedirect("/dashboard");
+            response.sendRedirect("/app/dashboard");
         } else {
             response.sendRedirect("/login");
         }

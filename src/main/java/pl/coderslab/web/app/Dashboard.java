@@ -1,4 +1,4 @@
-package pl.coderslab.web;
+package pl.coderslab.web.app;
 
 import pl.coderslab.dao.*;
 import pl.coderslab.model.*;
@@ -13,13 +13,14 @@ import java.util.Map;
 
 import static java.util.stream.Collectors.groupingBy;
 
-@WebServlet(name = "Dashboard", value = "/dashboard")
+@WebServlet(name = "Dashboard", value = "/app/dashboard")
 public class Dashboard extends HttpServlet {
+
+    private final PlanDao planDao = new PlanDao();
+    private final RecipeDao recipeDao = new RecipeDao();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PlanDao planDao = new PlanDao();
-        RecipeDao recipeDao = new RecipeDao();
-        DayNameDao dayNameDao = new DayNameDao();
         HttpSession session = request.getSession();
         Admin loggedUser = (Admin) session.getAttribute("User");
         int id = loggedUser.getId();
@@ -41,8 +42,6 @@ public class Dashboard extends HttpServlet {
             e.printStackTrace();
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid recipe plan id");
         }
-
-
     }
 
     @Override

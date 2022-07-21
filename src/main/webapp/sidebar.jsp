@@ -3,7 +3,7 @@
 
 <ul class="nav flex-column long-bg">
     <li class="nav-item">
-        <a class="nav-link" href="${pageContext.request.contextPath}/dashboard">
+        <a class="nav-link" href="${pageContext.request.contextPath}/app/dashboard">
             <span>Pulpit</span>
             <i class="fas fa-angle-right"></i>
         </a>
