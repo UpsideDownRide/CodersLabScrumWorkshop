@@ -13,20 +13,30 @@ public class Register extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getServletContext().getRequestDispatcher("/registration.jsp").forward(request,response);
-        response.setContentType("text/html;charset=utf-8");
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         AdminDao adminDao = new AdminDao();
         Admin admin = new Admin();
-        admin.setFirstName(request.getParameter("name"));
-        admin.setLastName(request.getParameter("surname"));
-        admin.setEmail(request.getParameter("email"));
-        admin.setPassword(request.getParameter("password"));
-        admin.setSuperadmin(0);
-        admin.setEnable(0);
-        adminDao.create(admin);
-        response.sendRedirect("/login");
+
+
+        admin = adminDao.findByEmail(request.getParameter("email"));
+        if(admin.getEmail() != null){
+            response.sendRedirect(request.getContextPath() + "/login/exists");
+
+        }else{
+            admin.setFirstName(request.getParameter("name"));
+            admin.setLastName(request.getParameter("surname"));
+            admin.setEmail(request.getParameter("email"));
+            admin.setPassword(request.getParameter("password"));
+            admin.setSuperadmin(0);
+            admin.setEnable(0);
+            adminDao.create(admin);
+            response.sendRedirect(request.getContextPath() + "/login/");
+        }
+
+
     }
 }

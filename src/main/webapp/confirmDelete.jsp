@@ -9,7 +9,7 @@
             <div class="dashboard-content border-dashed p-3 m-4 view-height">
                 <div class="row border-bottom border-3 p-1 m-1">
                     <form action="/app/recipe/delete" method="post">
-                        <div class="col noPadding"><h3 class="color-header text-uppercase">Czy napewno chcesz usunąć?</h3></div>
+                        <div class="col noPadding"><h3 class="color-header text-uppercase">Czy napewno chcesz usunąć przepis?</h3></div>
                         <button name="recipeId" type="submit" value="${recipeId}" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Usuń</button>
                         <a href="/app/recipe/list" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Anuluj</a>
                     </form>
