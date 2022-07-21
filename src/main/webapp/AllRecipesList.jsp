@@ -15,7 +15,7 @@
         <div class="m-4 p-3 width-medium">
             <form method="POST" class="padding-small text-center">
                 <div class="form-group">
-                    <input type="text" class="form-control" id="name" name="name" placeholder="podaj tytul przepisu">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Podaj tytuł przepisu">
                 </div>
                 <button class="btn btn-color rounded-0" type="submit">wyszukaj</button>
             </form>

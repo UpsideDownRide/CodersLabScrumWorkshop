@@ -27,6 +27,7 @@ body {
   font-family: "Open Sans", sans-serif;
   font-weight: 400;
   background: repeat url("../images/image.png");
+  min-height: 100vh;
 }
 
 p {
