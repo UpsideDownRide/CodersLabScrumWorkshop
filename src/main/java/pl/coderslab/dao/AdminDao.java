@@ -142,4 +142,21 @@ public class AdminDao {
         }
 
     }
+    public void updateEnabled(Admin admin, String password) {
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_ADMIN_QUERY)) {
+            statement.setInt(7, admin.getId());
+            statement.setString(1, admin.getFirstName());
+            statement.setString(2, admin.getLastName());
+            statement.setString(3, admin.getEmail());
+            statement.setString(4, password);
+            statement.setInt(5, admin.getSuperadmin());
+            statement.setInt(6, admin.getEnable());
+
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }

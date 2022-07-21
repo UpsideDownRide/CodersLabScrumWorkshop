@@ -22,6 +22,7 @@ public class Login extends HttpServlet {
         String password = request.getParameter("password");
         Admin userToAuthorize = adminDao.findByEmail((email));
         int superAdmin = userToAuthorize.getSuperadmin();
+        int blockedUser = userToAuthorize.getEnable();
         HttpSession session = request.getSession();
 
         if (userToAuthorize == null) {
@@ -30,7 +31,7 @@ public class Login extends HttpServlet {
         }
 
         boolean validPassword = adminDao.validPassword(userToAuthorize, password);
-        if (validPassword) {
+        if (validPassword && blockedUser !=0) {
             session.setAttribute("User", userToAuthorize);
             session.setAttribute("Authorized", true);
             session.setAttribute("superAdmin",superAdmin);

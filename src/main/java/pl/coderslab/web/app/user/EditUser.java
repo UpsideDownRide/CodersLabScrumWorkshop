@@ -36,7 +36,7 @@ public class EditUser extends HttpServlet {
         admin.setPassword(password);
         admin.setEmail(email);
         admin.setSuperadmin(0);
-        admin.setEnable(0);
+        admin.setEnable(1);
         adminDao.update(admin);
 
         response.sendRedirect("/dashboard.jsp");
