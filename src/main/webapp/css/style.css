@@ -317,15 +317,18 @@ margin: 0 auto !important;
   flex-wrap: nowrap;
   margin: 0;
 }
+
 .long-bg {
   background: var(--lighter-background-color);
   display: inline-block;
-	vertical-align: top;
-	min-height: 100%;
+  vertical-align: top;
+  min-height: 100%;
 }
 
-.dashboard-section > ul.nav {
-  position: fixed;
+.dashboard-section {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .dashboard-section .nav-item {
@@ -347,7 +350,7 @@ margin: 0 auto !important;
 }
 
 .dashboard-section > div.row {
-  margin-left: 260px;
+  flex-grow: 1;
 }
 
 .dashboard-section .nav-item a.active,
