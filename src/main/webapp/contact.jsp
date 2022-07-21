@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:include page="header.jsp"/>
+
 <section class="last-info-section padding-small" id="contact">
     <div class="container">
         <div class="row">
@@ -42,4 +42,4 @@
         </div>
     </div>
 </section>
-<jsp:include page="footer.jsp"/>
+

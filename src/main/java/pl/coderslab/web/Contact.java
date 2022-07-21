@@ -17,7 +17,7 @@ public class Contact extends HttpServlet {
         ContactObject contact =  contactDao.read();
         request.setAttribute("contact", contact);
         
-        request.getServletContext().getRequestDispatcher("/contact.jsp").forward(request, response);
+        request.getServletContext().getRequestDispatcher("/contactInfo.jsp").forward(request, response);
     }
 
     @Override
