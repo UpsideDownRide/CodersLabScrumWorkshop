@@ -191,7 +191,7 @@ public class PlanDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return plan;
 	}
 
 }

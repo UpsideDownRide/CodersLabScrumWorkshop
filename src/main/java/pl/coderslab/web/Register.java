@@ -21,9 +21,7 @@ public class Register extends HttpServlet {
         AdminDao adminDao = new AdminDao();
         Admin admin = new Admin();
 
-
-        admin = adminDao.findByEmail(request.getParameter("email"));
-        if(admin.getEmail() != null){
+        if(adminDao.findByEmail(request.getParameter("email")) != null){
             response.sendRedirect(request.getContextPath() + "/login/exists");
 
         }else{
@@ -32,9 +30,9 @@ public class Register extends HttpServlet {
             admin.setEmail(request.getParameter("email"));
             admin.setPassword(request.getParameter("password"));
             admin.setSuperadmin(0);
-            admin.setEnable(0);
+            admin.setEnable(1);
             adminDao.create(admin);
-            response.sendRedirect(request.getContextPath() + "/login/");
+            response.sendRedirect(request.getContextPath() + "/login");
         }
 
 

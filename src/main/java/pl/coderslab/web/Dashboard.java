@@ -30,16 +30,16 @@ public class Dashboard extends HttpServlet {
         RecipePlanDao recipePlanDao = new RecipePlanDao();
         try {
             Plan plan = planDao.lastAddedPlan(id);
-            List<RecipePlanDetails> recipePlanDetails = recipePlanDao.findRecipePlanDetails(plan.getId());
-            request.setAttribute("plan", plan);
-            Map<String, List<RecipePlanDetails>> recipePlanDetailsByDay = recipePlanDetails
-                    .stream()
-                    .collect(groupingBy(RecipePlanDetails::getDayName));
-            request.setAttribute("recipePlanDetailsByDay", recipePlanDetailsByDay);
-    
-      
-            
-            getServletContext().getRequestDispatcher("/dashboard.jsp").forward(request, response);
+                List<RecipePlanDetails> recipePlanDetails = recipePlanDao.findRecipePlanDetails(plan.getId());
+                request.setAttribute("plan", plan);
+                Map<String, List<RecipePlanDetails>> recipePlanDetailsByDay = recipePlanDetails
+                        .stream()
+                        .collect(groupingBy(RecipePlanDetails::getDayName));
+                request.setAttribute("recipePlanDetailsByDay", recipePlanDetailsByDay);
+
+
+
+                getServletContext().getRequestDispatcher("/dashboard.jsp").forward(request, response);
 
         } catch (NumberFormatException e) {
             e.printStackTrace();
