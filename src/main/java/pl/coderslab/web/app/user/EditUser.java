@@ -37,7 +37,7 @@ public class EditUser extends HttpServlet {
         admin.setSuperadmin(0);
         admin.setEnable(1);
         adminDao.updatePasswordNoHash(admin,password);
-
+        session.setAttribute("User", admin);
         response.sendRedirect("/dashboard");
 
     }

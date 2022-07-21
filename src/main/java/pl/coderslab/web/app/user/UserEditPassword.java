@@ -35,6 +35,7 @@ public class UserEditPassword extends HttpServlet {
             admin.setSuperadmin(0);
             admin.setEnable(1);
             adminDao.updatePasswordHash(admin);
+            session.setAttribute("User", admin);
             response.sendRedirect("/dashboard");
 
         }else {
